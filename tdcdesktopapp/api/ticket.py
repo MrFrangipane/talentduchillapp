@@ -1,7 +1,6 @@
 from dataclasses import dataclass
 
 from tdcdesktopapp.configuration import Configuration
-from tdcdesktopapp.implementation.ram_ticket_storage import RAMTicketStorage
 
 
 @dataclass
