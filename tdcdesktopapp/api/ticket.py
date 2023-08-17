@@ -1,5 +1,8 @@
 from dataclasses import dataclass
 
+from tdcdesktopapp.configuration import Configuration
+from tdcdesktopapp.implementation.ram_ticket_storage import RAMTicketStorage
+
 
 @dataclass
 class Ticket:
@@ -12,8 +15,8 @@ class TicketAPI:
 
     @staticmethod
     def count():
-        return 5
+        return len(Configuration().ticket_storage.get_all())
 
     @staticmethod
     def ticket_by_index(index):
-        return Ticket(index=index, price=90, holder='None')
+        return Ticket(**Configuration().ticket_storage.get_by_index(index))
