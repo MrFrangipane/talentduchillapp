@@ -2,3 +2,4 @@
 _documentation
 .fileorganizer
 venv
+__pycache__
