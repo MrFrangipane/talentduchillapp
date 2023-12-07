@@ -1,16 +1,19 @@
+import logging
 import sys
 
 from PySide6.QtWidgets import QApplication
 
-from tdcdesktopapp.api import configuration
-from tdcdesktopapp.ui.main_window import MainWindow
+from tdcdesktopapp import configuration
+from tdcdesktopapp.configuration.loader_argparse import ArgparseConfigurationLoader
+from tdcdesktopapp.gui.main_window_factory import MainWindowFactory
 
 
-configuration.configure_for_ram()
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO)
 
-app = QApplication()
+    configuration.load_and_apply(loader=ArgparseConfigurationLoader())
 
-main_window = MainWindow()
-main_window.show()
-
-sys.exit(app.exec())
+    application = QApplication()
+    main_window = MainWindowFactory.create()
+    main_window.show()
+    sys.exit(application.exec())
