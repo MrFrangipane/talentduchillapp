@@ -30,9 +30,9 @@ class ExpensesWidget(QGroupBox):
         layout = QGridLayout(self)
         layout.addWidget(self._table_view, 0, 0, 3, 1)
         layout.addWidget(self._combo_project, 0, 1)
-        layout.addWidget(self._button_reload, 1, 1)
-        layout.addWidget(QWidget(), 2, 1)
-        layout.setRowStretch(2, 100)
+        layout.addWidget(QWidget(), 1, 1)
+        layout.addWidget(self._button_reload, 2, 1)
+        layout.setRowStretch(1, 100)
 
         self.reload()
 
@@ -41,7 +41,7 @@ class ExpensesWidget(QGroupBox):
             projects = projects_api.get_all()
 
             combo.update(self._combo_project, [project.name for project in projects])
-
             selected_project = projects[self._combo_project.currentIndex()]
+
             expenses = expenses_api.get_all_for_project(selected_project)
             self._table_model.set_expenses(expenses)
