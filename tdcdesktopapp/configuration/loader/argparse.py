@@ -1,6 +1,6 @@
 import argparse
 
-from tdcdesktopapp.configuration.loader_abstract import AbstractConfigurationLoader
+from tdcdesktopapp.configuration.loader.abstract import AbstractConfigurationLoader
 
 
 class ArgparseConfigurationLoader(AbstractConfigurationLoader):

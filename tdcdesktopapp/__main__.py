@@ -4,8 +4,8 @@ import sys
 from PySide6.QtWidgets import QApplication
 
 from tdcdesktopapp import configuration
-from tdcdesktopapp.configuration.loader_argparse import ArgparseConfigurationLoader
-from tdcdesktopapp.gui.main_window_factory import MainWindowFactory
+from tdcdesktopapp.configuration.loader.argparse import ArgparseConfigurationLoader
+from tdcdesktopapp.main_window_factory import MainWindowFactory
 
 
 if __name__ == '__main__':
