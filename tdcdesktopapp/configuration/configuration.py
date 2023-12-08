@@ -8,12 +8,16 @@ def load_and_apply(loader: AbstractConfigurationLoader) -> None:
     ConfigurationSingleton().show_css_editor = loader.show_css_editor
 
     if loader.persistence_name == "ram":
-        from tdcdesktopapp.expenses.persistence.ram import RamExpensePersistence
-        ConfigurationSingleton().expense_persistence = RamExpensePersistence()
+        from tdcdesktopapp.expenses.persistence.ram import RamExpensesPersistence
+        from tdcdesktopapp.projects.persistence.ram import RamProjectsPersistence
+        ConfigurationSingleton().expense_persistence = RamExpensesPersistence()
+        ConfigurationSingleton().project_persistence = RamProjectsPersistence()
 
     elif loader.persistence_name == "http":
-        from tdcdesktopapp.expenses.persistence.http import HttpExpensePersistence
-        ConfigurationSingleton().expense_persistence = HttpExpensePersistence()
+        from tdcdesktopapp.expenses.persistence.http import HttpExpensesPersistence
+        from tdcdesktopapp.projects.persistence.http import HttpProjectsPersistence
+        ConfigurationSingleton().expense_persistence = HttpExpensesPersistence()
+        ConfigurationSingleton().project_persistence = HttpProjectsPersistence()
 
 
 def show_css_editor() -> bool:

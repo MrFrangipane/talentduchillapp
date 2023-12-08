@@ -1,10 +1,8 @@
-import dataclasses
 from typing import List
 
 from PySide6.QtCore import Qt, QAbstractTableModel
 
 from tdcdesktopapp.expenses.model import Expense
-from tdcdesktopapp.expenses import api
 from tdcdesktopapp.python_extensions.typing import get_fields_names
 
 
@@ -15,11 +13,9 @@ class ExpensesTableModel(QAbstractTableModel):
         self._columns: List[str] = get_fields_names(Expense)
         self._columns_pretty = [item.replace("_", " ").capitalize() for item in self._columns]
 
-        self.reload()
-
-    def reload(self):
+    def set_expenses(self, expenses: List[Expense]):
         self.beginResetModel()
-        self._data = api.get_all()
+        self._data = expenses
         self.endResetModel()
 
     def rowCount(self, parent=None):
