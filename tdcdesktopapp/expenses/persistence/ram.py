@@ -4,7 +4,7 @@ from tdcdesktopapp.expenses.persistence.abstract import AbstractExpensesPersiste
 from tdcdesktopapp.expenses.model import Expense
 
 
-class RAMExpensePersistence(AbstractExpensesPersistence):
+class RamExpensePersistence(AbstractExpensesPersistence):
 
     def get_all(self):
         return [

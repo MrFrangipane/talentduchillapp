@@ -29,5 +29,6 @@ class MainWindowFactory:
                 main_window.setStyleSheet(file_stylesheet.read())
 
         main_window.setWindowTitle("TDC App")
+        main_window.resize(800, 600)
 
         return main_window
