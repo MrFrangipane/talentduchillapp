@@ -11,3 +11,6 @@ class Project:
     id: Annotated[UUID, HiddenAttribute]
     name: str
     description: str = ""
+
+    def __str__(self):
+        return self.name
