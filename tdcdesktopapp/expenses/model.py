@@ -1,6 +1,6 @@
-from typing import Annotated
 from dataclasses import dataclass
 from datetime import date
+from typing import Annotated
 from uuid import UUID
 
 from tdcdesktopapp.python_extensions.typing import HiddenAttribute, Currency
@@ -17,3 +17,6 @@ class Expense:
     needs_refund: bool = False
     refunded: bool | None = None
     date_refund: date | None = None
+
+    def __str__(self):
+        return f"{self.project} > {self.caption}"

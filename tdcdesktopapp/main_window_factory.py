@@ -1,16 +1,9 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QGridLayout
+from PySide6.QtWidgets import QMainWindow
 
-from pyside6helpers import css
+from pyside6helpers import css, widget
 
 from tdcdesktopapp import configuration
-from tdcdesktopapp.expenses.gui.widget import ExpensesWidget
-
-
-def _make_central_wdiget(widget: QWidget):
-    central_widget = QWidget()
-    central_layout = QGridLayout(central_widget)
-    central_layout.addWidget(widget)
-    return central_widget
+from tdcdesktopapp.central_widget import CentralWidget
 
 
 class MainWindowFactory:
@@ -20,7 +13,7 @@ class MainWindowFactory:
     def create() -> QMainWindow:
 
         main_window = QMainWindow()
-        main_window.setCentralWidget(_make_central_wdiget(ExpensesWidget()))
+        main_window.setCentralWidget(widget.wrap(CentralWidget()))
 
         if configuration.show_css_editor():
             from pyside6helpers.css.editor import CSSEditor

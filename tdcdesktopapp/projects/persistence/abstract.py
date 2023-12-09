@@ -10,3 +10,15 @@ class AbstractProjectsPersistence(ABC):
     @abstractmethod
     def get_all(self) -> List[Project]:
         pass
+
+    @abstractmethod
+    def new(self) -> Project:
+        pass
+
+    @abstractmethod
+    def update(self, project: Project) -> None:
+        pass
+
+    @abstractmethod
+    def remove(self, project: Project) -> None:
+        pass

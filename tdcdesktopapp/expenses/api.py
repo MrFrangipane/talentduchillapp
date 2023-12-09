@@ -1,25 +1,37 @@
-from typing import List
+from typing import List, Type
+from dataclasses import dataclass
 
 from tdcdesktopapp.configuration.singleton import ConfigurationSingleton
-from tdcdesktopapp.projects.model import Project
+from tdcdesktopapp.entity.abstract_api import AbstractEntityApi, BaseApiOptions
 from tdcdesktopapp.expenses.model import Expense
+from tdcdesktopapp.projects.model import Project
 
 
-def get_all() -> List[Expense]:
-    return ConfigurationSingleton().expense_persistence.get_all()
+@dataclass
+class GetExpensesOptions(BaseApiOptions):
+    project: Project | None = None
 
 
-def get_all_for_project(project: Project) -> List[Expense]:
-    return ConfigurationSingleton().expense_persistence.get_all_for_project(project)
+@dataclass
+class NewExpenseOptions(BaseApiOptions):
+    project: Project
 
 
-def update(expense: Expense) -> None:
-    return ConfigurationSingleton().expense_persistence.update(expense)
+class ExpensesApi(AbstractEntityApi):
+    def entity_type(self) -> Type[Expense]:
+        return Expense
 
+    def get(self, options: GetExpensesOptions) -> List[Expense]:
+        if options.project is None:
+            return ConfigurationSingleton().expense_persistence.get_all()
+        else:
+            return ConfigurationSingleton().expense_persistence.get_all_for_project(options.project)
 
-def remove(expense: Expense) -> None:
-    return ConfigurationSingleton().expense_persistence.remove(expense)
+    def new(self, options: NewExpenseOptions) -> Expense:
+        return ConfigurationSingleton().expense_persistence.new_for_project(options.project)
 
+    def update(self, entity: Expense) -> None:
+        return ConfigurationSingleton().expense_persistence.update(entity)
 
-def new_for_project(project: Project) -> Expense:
-    return ConfigurationSingleton().expense_persistence.new_for_project(project)
+    def remove(self, entity: Expense) -> None:
+        return ConfigurationSingleton().expense_persistence.remove(entity)

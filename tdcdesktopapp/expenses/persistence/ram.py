@@ -1,7 +1,7 @@
 from datetime import date
 
-from tdcdesktopapp.expenses.persistence.abstract import AbstractExpensesPersistence
 from tdcdesktopapp.expenses.model import Expense
+from tdcdesktopapp.expenses.persistence.abstract import AbstractExpensesPersistence
 from tdcdesktopapp.projects.model import Project
 
 
@@ -29,18 +29,20 @@ class RamExpensesPersistence(AbstractExpensesPersistence):
     def get_all_for_project(self, project: Project):
         return list([expense for expense in self._expenses.values() if expense.project == project.name])
 
-    def update(self, expense: Expense):
-        self._expenses[expense.id] = expense
-
-    def remove(self, expense: Expense):
-        self._expenses.pop(expense.id)
-
     def new_for_project(self, project: Project) -> Expense:
+        new_index = max([int(index) for index in self._expenses.keys()]) + 1
         new_expense = Expense(
-            id=f"{len(self._expenses) + 1}:02d",
+            id=f"{new_index:02d}",
             project=project.name,
             caption="New Expense",
             amount=0,
             date_=date.today()
         )
         self._expenses[new_expense.id] = new_expense
+        return new_expense
+
+    def update(self, expense: Expense):
+        self._expenses[expense.id] = expense
+
+    def remove(self, expense: Expense):
+        self._expenses.pop(expense.id)
