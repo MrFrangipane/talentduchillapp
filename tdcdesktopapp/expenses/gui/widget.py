@@ -1,5 +1,6 @@
-from PySide6.QtWidgets import QGroupBox, QTableView, QGridLayout, QPushButton, QComboBox, QWidget, QHeaderView
+from PySide6.QtWidgets import QGroupBox, QTableView, QGridLayout, QPushButton, QComboBox, QWidget
 from pyside6helpers import Hourglass, combo, group, confirmation_dialog
+from pyside6helpers.table_view import resize_columns_to_content_with_padding
 
 
 from tdcdesktopapp.expenses import api as expenses_api
@@ -24,10 +25,6 @@ class ExpensesWidget(QGroupBox):
         self._table_view.setAlternatingRowColors(True)
         self._table_view.setSelectionBehavior(QTableView.SelectRows)
         self._table_view.setSelectionMode(QTableView.SingleSelection)
-
-        self._table_view.horizontalHeader().setSectionResizeMode(QHeaderView.Interactive)
-        self._table_view.horizontalHeader().setMinimumSectionSize(100)
-
         self._delegates = Delegates()
         self._delegates.apply_to_columns_from_dataclass(self._table_view, Expense)
 
@@ -58,7 +55,7 @@ class ExpensesWidget(QGroupBox):
     def remove_expense(self):
         for index in self._table_view.selectionModel().selectedRows():
             expense = self._table_model.expense_from_row(index.row())
-            if confirmation_dialog(f"Are you sure you want to delete '{expense.caption}' ?"):
+            if confirmation_dialog(f"Are you sure you want to delete '{expense.caption}' ?\nYOU CAN'T GO BACK"):
                 expenses_api.remove(expense)
                 self.reload()
 
@@ -76,4 +73,4 @@ class ExpensesWidget(QGroupBox):
 
             expenses = expenses_api.get_all_for_project(selected_project)
             self._table_model.set_expenses(expenses)
-            self._table_view.resizeColumnToContents(1)
+            resize_columns_to_content_with_padding(self._table_view, 10)
