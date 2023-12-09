@@ -4,7 +4,7 @@ from pyside6helpers.table_view import resize_columns_to_content_with_padding
 
 
 from tdcdesktopapp.entity.gui.entity_table import EntityTable
-from tdcdesktopapp.projects.api import ProjectsApi, GetProjectsOptions, NewProjectOptions
+from tdcdesktopapp.projects.api import ProjectsApi
 
 
 class ProjectsWidget(QGroupBox):

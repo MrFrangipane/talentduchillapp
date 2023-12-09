@@ -13,11 +13,11 @@ class AbstractEntityApi(ABC):
         pass
 
     @abstractmethod
-    def get(self, options: BaseApiOptions) -> List[BaseEntity]:
+    def get(self, options: BaseApiOptions | None) -> List[BaseEntity]:
         pass
 
     @abstractmethod
-    def new(self, options: BaseApiOptions) -> BaseEntity:
+    def new(self, options: BaseApiOptions | None) -> BaseEntity:
         pass
 
     @abstractmethod

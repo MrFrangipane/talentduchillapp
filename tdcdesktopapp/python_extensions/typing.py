@@ -2,10 +2,12 @@ from typing import get_type_hints
 
 
 class HiddenAttribute:
+    """Used with `typing.Annotated` to inform GUI that a member should not be displayed"""
     pass
 
 
 class Currency(float):
+    """Helps delegates to represent Currency correctly"""
     pass
 
 

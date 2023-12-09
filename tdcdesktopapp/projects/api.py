@@ -1,29 +1,18 @@
 from typing import List, Type
-from dataclasses import dataclass
 
 from tdcdesktopapp.configuration.singleton import ConfigurationSingleton
-from tdcdesktopapp.entity.abstract_api import AbstractEntityApi, BaseApiOptions
+from tdcdesktopapp.entity.abstract_api import AbstractEntityApi
 from tdcdesktopapp.projects.model import Project
-
-
-@dataclass
-class GetProjectsOptions(BaseApiOptions):
-    pass
-
-
-@dataclass
-class NewProjectOptions(BaseApiOptions):
-    pass
 
 
 class ProjectsApi(AbstractEntityApi):
     def entity_type(self) -> Type[Project]:
         return Project
 
-    def get(self, options: GetProjectsOptions = GetProjectsOptions()) -> List[Project]:
+    def get(self, options: None = None) -> List[Project]:
         return ConfigurationSingleton().project_persistence.get_all()
 
-    def new(self, options: NewProjectOptions = NewProjectOptions()) -> Project:
+    def new(self, options: None = None) -> Project:
         return ConfigurationSingleton().project_persistence.new()
 
     def update(self, entity: Project) -> None:
