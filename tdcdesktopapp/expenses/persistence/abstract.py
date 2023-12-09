@@ -15,3 +15,15 @@ class AbstractExpensesPersistence(ABC):
     @abstractmethod
     def get_all_for_project(self, project: Project):
         pass
+
+    @abstractmethod
+    def update(self, expense: Expense):
+        pass
+
+    @abstractmethod
+    def remove(self, expense: Expense):
+        pass
+
+    @abstractmethod
+    def new_for_project(self, project: Project) -> Expense:
+        pass

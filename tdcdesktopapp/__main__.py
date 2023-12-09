@@ -1,3 +1,4 @@
+import locale
 import logging
 import sys
 
@@ -9,6 +10,7 @@ from tdcdesktopapp.main_window_factory import MainWindowFactory
 
 
 if __name__ == '__main__':
+    locale.setlocale(locale.LC_ALL, '')
     logging.basicConfig(level=logging.INFO)
 
     configuration.load_and_apply(loader=ArgparseConfigurationLoader())

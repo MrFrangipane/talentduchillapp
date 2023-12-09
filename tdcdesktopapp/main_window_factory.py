@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import QMainWindow, QWidget, QGridLayout
 
+from pyside6helpers import css
+
 from tdcdesktopapp import configuration
-from tdcdesktopapp.python_extensions import make_resource_path
 from tdcdesktopapp.expenses.gui.widget import ExpensesWidget
 
 
@@ -25,10 +26,9 @@ class MainWindowFactory:
             from pyside6helpers.css.editor import CSSEditor
             MainWindowFactory._css_editor = CSSEditor("Frangitron", main_window)
         else:
-            with open(make_resource_path("ui/style.qss"), "r") as file_stylesheet:
-                main_window.setStyleSheet(file_stylesheet.read())
+            css.load_onto(main_window)
 
         main_window.setWindowTitle("TDC App")
-        main_window.resize(800, 600)
+        main_window.resize(1000, 700)
 
         return main_window
