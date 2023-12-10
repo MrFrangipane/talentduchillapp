@@ -9,14 +9,14 @@ class MultiplayerWorkerStarter(QObject):  # FIXME: find a better name
 
     def __init__(self, parent=None):
         QObject.__init__(self, parent)
-
         self.worker = MultiplayerWorker()
         self._thread = QThread()
 
     def _setup_threading(self):
-        # Direct connection before moveToThread to ensure execution from main thread
+        # Direct signal connection before moveToThread to ensure execution from main thread
         QApplication.instance().aboutToQuit.connect(self.worker.stop, Qt.DirectConnection)
 
+        # Auto signal connection
         self.worker.moveToThread(self._thread)
         self._thread.finished.connect(self.worker.deleteLater)
         self._start_thread.connect(self.worker.start)
