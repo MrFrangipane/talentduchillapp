@@ -1,7 +1,7 @@
 from datetime import date
 
 from tdcdesktopapp.components.expense.model import Expense
-from tdcdesktopapp.components.expense.persistence.abstract import AbstractExpensesPersistence
+from tdcdesktopapp.components.expense.abstract_persistence import AbstractExpensesPersistence
 from tdcdesktopapp.components.project.model import Project
 
 

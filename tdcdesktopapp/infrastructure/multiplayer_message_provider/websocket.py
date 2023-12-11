@@ -5,7 +5,7 @@ from typing import Callable
 from PySide6.QtCore import QUrl, QObject, Signal
 from PySide6.QtWebSockets import QWebSocket
 
-from tdcdesktopapp.components.multiplayer.message_provider.abstract import AbstractMultiplayerMessageProvider
+from tdcdesktopapp.components.multiplayer.abstract_message_provider import AbstractMultiplayerMessageProvider
 from tdcdesktopapp.components.authentication import api as authentication_api
 
 

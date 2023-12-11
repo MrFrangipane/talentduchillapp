@@ -1,8 +1,8 @@
 import json
 
-from tdcdesktopapp.components.authentication.http.auth_api import AuthAPI
-from tdcdesktopapp.components.authentication.http.auth_dialog import AuthDialog
 from tdcdesktopapp.components.authentication.abstract import AbstractSecurityLogin
+from tdcdesktopapp.infrastructure.authentication.http.auth_api import AuthAPI
+from tdcdesktopapp.infrastructure.authentication.http.auth_dialog import AuthDialog
 
 
 class HttpSecurityLogin(AbstractSecurityLogin):

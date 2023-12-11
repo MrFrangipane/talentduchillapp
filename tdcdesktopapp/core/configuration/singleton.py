@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 
-from tdcdesktopapp.components.expense.persistence.abstract import AbstractExpensesPersistence
-from tdcdesktopapp.components.multiplayer.message_provider.abstract import AbstractMultiplayerMessageProvider
-from tdcdesktopapp.components.project.persistence.abstract import AbstractProjectsPersistence
 from tdcdesktopapp.components.authentication.abstract import AbstractSecurityLogin
+from tdcdesktopapp.components.expense.abstract_persistence import AbstractExpensesPersistence
+from tdcdesktopapp.components.multiplayer.abstract_message_provider import AbstractMultiplayerMessageProvider
+from tdcdesktopapp.components.project.abstract_persistence import AbstractProjectsPersistence
 from tdcdesktopapp.python_extensions.singleton_metaclass import SingletonMetaclass
 
 

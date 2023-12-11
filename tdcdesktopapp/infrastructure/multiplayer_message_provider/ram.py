@@ -1,4 +1,4 @@
-from tdcdesktopapp.components.multiplayer.message_provider.abstract import AbstractMultiplayerMessageProvider
+from tdcdesktopapp.components.multiplayer.abstract_message_provider import AbstractMultiplayerMessageProvider
 from tdcdesktopapp.core.configuration.singleton import ConfigurationSingleton
 
 

@@ -8,10 +8,10 @@ from typing import List
 import tdc_api_client as client
 from tdc_api_client.exceptions import ForbiddenException
 
-from tdcdesktopapp.components.project.persistence.abstract import AbstractProjectsPersistence
-from tdcdesktopapp.components.project.persistence.exceptions import PersistenceException
-from tdcdesktopapp.components.project.model import Project
 from tdcdesktopapp.components.authentication.api import get_token
+from tdcdesktopapp.components.project.abstract_persistence import AbstractProjectsPersistence
+from tdcdesktopapp.components.project.model import Project
+from tdcdesktopapp.core.exceptions import PersistenceException
 
 
 class HttpProjectsPersistence(AbstractProjectsPersistence):

@@ -6,11 +6,11 @@ note: https://stackoverflow.com/questions/2386299/running-sites-on-localhost-is-
 import tdc_api_client as client
 from tdc_api_client.exceptions import ForbiddenException
 
-from tdcdesktopapp.components.expense.persistence.abstract import AbstractExpensesPersistence
-from tdcdesktopapp.components.project.persistence.exceptions import PersistenceException
+from tdcdesktopapp.components.authentication.api import get_token
+from tdcdesktopapp.components.expense.abstract_persistence import AbstractExpensesPersistence
 from tdcdesktopapp.components.expense.model import Expense
 from tdcdesktopapp.components.project.model import Project
-from tdcdesktopapp.components.authentication.api import get_token
+from tdcdesktopapp.core.exceptions import PersistenceException
 
 
 class HttpExpensesPersistence(AbstractExpensesPersistence):

@@ -2,7 +2,7 @@ from copy import deepcopy
 from typing import List
 
 from tdcdesktopapp.components.project.model import Project
-from tdcdesktopapp.components.project.persistence.abstract import AbstractProjectsPersistence
+from tdcdesktopapp.components.project.abstract_persistence import AbstractProjectsPersistence
 
 
 class RamProjectsPersistence(AbstractProjectsPersistence):

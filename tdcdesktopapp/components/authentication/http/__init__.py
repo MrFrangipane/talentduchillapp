@@ -1,1 +1,0 @@
-from tdcdesktopapp.components.authentication.http.main import HttpSecurityLogin

@@ -2,7 +2,7 @@ from PySide6.QtCore import QTimer
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QLabel, QDialog, QGridLayout
 
-from tdcdesktopapp.components.authentication.http.auth_api import AuthAPI
+from tdcdesktopapp.infrastructure.authentication.http.auth_api import AuthAPI
 
 
 class AuthDialog(QDialog):
