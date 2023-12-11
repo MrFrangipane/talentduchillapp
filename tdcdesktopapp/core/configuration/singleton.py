@@ -1,8 +1,9 @@
 from dataclasses import dataclass
 
 from tdcdesktopapp.components.expense.persistence.abstract import AbstractExpensesPersistence
+from tdcdesktopapp.components.multiplayer.message_provider.abstract import AbstractMultiplayerMessageProvider
 from tdcdesktopapp.components.project.persistence.abstract import AbstractProjectsPersistence
-from tdcdesktopapp.components.multiplayer.client.abstract import AbstractMultiplayerClient
+from tdcdesktopapp.components.authentication.abstract import AbstractSecurityLogin
 from tdcdesktopapp.python_extensions.singleton_metaclass import SingletonMetaclass
 
 
@@ -12,4 +13,5 @@ class ConfigurationSingleton(metaclass=SingletonMetaclass):
     show_css_editor: bool = None
     expense_persistence: AbstractExpensesPersistence = None
     project_persistence: AbstractProjectsPersistence = None
-    multiplayer_client: AbstractMultiplayerClient = None
+    multiplayer_message_provider: AbstractMultiplayerMessageProvider = None
+    security_login: AbstractSecurityLogin = None

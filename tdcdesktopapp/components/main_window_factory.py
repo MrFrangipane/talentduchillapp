@@ -1,11 +1,11 @@
 from PySide6.QtCore import Signal
-from PySide6.QtWidgets import QMainWindow
+from PySide6.QtWidgets import QApplication, QMainWindow
 
 from pyside6helpers import css, widget
 
 from tdcdesktopapp.core import configuration
 from tdcdesktopapp.components.central_widget import CentralWidget
-from tdcdesktopapp.components.multiplayer.api import Multiplayer
+from tdcdesktopapp.components.multiplayer.client import MultiplayerClient
 
 
 class _QMainWindowWithShownSignal(QMainWindow):
@@ -23,14 +23,14 @@ class MainWindowFactory:
     def create() -> _QMainWindowWithShownSignal:
 
         main_window = _QMainWindowWithShownSignal()
-        main_window.shown.connect(Multiplayer().start)  # FIXME do that somewhere else ?
+        main_window.shown.connect(MultiplayerClient().start)  # FIXME do that somewhere else ?
         main_window.setCentralWidget(widget.wrap(CentralWidget()))
 
         if configuration.show_css_editor():
             from pyside6helpers.css.editor import CSSEditor
             MainWindowFactory._css_editor = CSSEditor("Frangitron", main_window)
         else:
-            css.load_onto(main_window)
+            css.load_onto(QApplication.instance())
 
         main_window.setWindowTitle("TDC App")
         main_window.resize(1000, 700)

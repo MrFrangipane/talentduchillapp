@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QGroupBox, QGridLayout, QPushButton, QComboBox, QWidget
 from pyside6helpers import Hourglass, combo, group
 from pyside6helpers.table_view import resize_columns_to_content_with_padding
+from pyside6helpers.error_reporting import error_reported
 
 
 from tdcdesktopapp.core.entity.gui import EntityTable
@@ -42,10 +43,9 @@ class ExpensesWidget(QGroupBox):
         layout.addWidget(self._button_reload, 3, 1)
         layout.setRowStretch(2, 100)
 
-        self.reload()
-
+    @error_reported(name="Load expenses")
     def reload(self):
-        with Hourglass(self):
+        with Hourglass():
 
             self._projects = self._projects_api.get()
             combo.update(self._combo_project, [project.name for project in self._projects])
@@ -55,6 +55,7 @@ class ExpensesWidget(QGroupBox):
             self._entity_table.set_entities(expenses)
             resize_columns_to_content_with_padding(self._entity_table.view, 10)
 
+    @error_reported(name="New expense")
     def _add_expense(self):
         selected_project = self._projects[self._combo_project.currentIndex()]
         self._expenses_api.new(NewExpenseOptions(project=selected_project))

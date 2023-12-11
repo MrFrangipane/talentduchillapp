@@ -1,11 +1,9 @@
-from PySide6.QtCore import QThread
-
 from tdcdesktopapp.python_extensions.singleton_metaclass import SingletonMetaclass
 from tdcdesktopapp.components.multiplayer.qsignals_holder import MultiplayerQSignalsHolder
 from tdcdesktopapp.components.multiplayer.worker_starter import MultiplayerWorkerStarter
 
 
-class Multiplayer(metaclass=SingletonMetaclass):  # FIXME find a better name
+class MultiplayerClient(metaclass=SingletonMetaclass):  # FIXME find a better name
     """Singleton used to connect components to multiplayer events"""
 
     def __init__(self):

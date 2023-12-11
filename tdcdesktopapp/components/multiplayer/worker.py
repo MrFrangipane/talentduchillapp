@@ -15,7 +15,7 @@ class MultiplayerWorker(QObject):
         self.run()
 
     def run(self):
-        ConfigurationSingleton().multiplayer_client.begin()
+        ConfigurationSingleton().multiplayer_message_provider_client.begin()
         while self._is_running:
             self._process_messages()
             QThread.currentThread().msleep(10)
@@ -24,7 +24,7 @@ class MultiplayerWorker(QObject):
         self._is_running = False
 
     def _process_messages(self):
-        messages = ConfigurationSingleton().multiplayer_client.get_messages()
+        messages = ConfigurationSingleton().multiplayer_message_provider_client.get_messages()
         for message in messages:
             if message == "projects_reload":
                 self.projectsReloadRequested.emit()

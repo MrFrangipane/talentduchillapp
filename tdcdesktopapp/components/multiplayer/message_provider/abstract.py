@@ -1,7 +1,7 @@
 from abc import (ABC, abstractmethod)
 
 
-class AbstractMultiplayerClient(ABC):
+class AbstractMultiplayerMessageProvider(ABC):
 
     @abstractmethod
     def begin(self):

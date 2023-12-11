@@ -3,3 +3,4 @@ _documentation
 .fileorganizer
 venv
 __pycache__
+dont_commit/

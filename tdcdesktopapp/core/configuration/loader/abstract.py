@@ -7,8 +7,9 @@ class AbstractConfigurationLoader(ABC):
     `tdcdesktopapp.application.singleton.ConfigurationSingleton()`
     """
     def __init__(self):
-        self.show_css_editor: bool = False
+        self.auth0_configuration: str = ""
         self.persistence_name: str = ""
+        self.show_css_editor: bool = False
 
     @abstractmethod
     def load(self):

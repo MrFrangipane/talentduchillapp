@@ -1,10 +1,11 @@
 from PySide6.QtWidgets import QGroupBox, QGridLayout, QPushButton, QWidget
 from pyside6helpers import Hourglass, group
+from pyside6helpers.error_reporting import error_reported
 from pyside6helpers.table_view import resize_columns_to_content_with_padding
 
 
 from tdcdesktopapp.core.entity.gui.entity_table import EntityTable
-from tdcdesktopapp.components.multiplayer.api import Multiplayer
+from tdcdesktopapp.components.multiplayer.client import MultiplayerClient
 from tdcdesktopapp.components.project.api import ProjectsApi
 
 
@@ -37,16 +38,16 @@ class ProjectsWidget(QGroupBox):
         layout.addWidget(self._button_reload, 2, 1)
         layout.setRowStretch(1, 100)
 
-        Multiplayer().signals.projectsReloadRequested.connect(self.reload)
+        MultiplayerClient().signals.projectsReloadRequested.connect(self.reload)
 
-        self.reload()
-
+    @error_reported("Load projects")
     def reload(self):
-        with Hourglass(self):
+        with Hourglass():
             projects = self._api.get()
             self._entity_table.set_entities(projects)
             resize_columns_to_content_with_padding(self._entity_table.view, 10)
 
+    @error_reported("New project")
     def _add_project(self):
         self._api.new()
         self.reload()
