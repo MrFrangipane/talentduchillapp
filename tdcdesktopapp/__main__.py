@@ -23,7 +23,7 @@ if __name__ == '__main__':
     from tdcdesktopapp.core import configuration
     from tdcdesktopapp.components.authentication.api import authenticate
     from tdcdesktopapp.components.main_window_factory import MainWindowFactory
-    from tdcdesktopapp.infrastructure.configuration.argparse import ArgparseConfigurationLoader
+    from tdcdesktopapp.infrastructure.argparse_configuration_loader import ArgparseConfigurationLoader
 
     configuration.load_and_apply(loader=ArgparseConfigurationLoader())
 

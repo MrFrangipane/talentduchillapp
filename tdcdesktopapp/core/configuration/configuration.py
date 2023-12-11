@@ -13,29 +13,29 @@ def load_and_apply(loader: AbstractConfigurationLoader) -> None:
     ConfigurationSingleton().show_css_editor = loader.show_css_editor
 
     if loader.persistence_name == "ram":
-        from tdcdesktopapp.infrastructure.expense.ram import RamExpensesPersistence
+        from tdcdesktopapp.infrastructure.ram.expense_persistence import RamExpensesPersistence
         ConfigurationSingleton().expense_persistence = RamExpensesPersistence()
 
-        from tdcdesktopapp.infrastructure.project.ram import RamProjectsPersistence
+        from tdcdesktopapp.infrastructure.ram.project_persistence import RamProjectsPersistence
         ConfigurationSingleton().project_persistence = RamProjectsPersistence()
 
-        from tdcdesktopapp.infrastructure.multiplayer_message_provider.ram import RamMultiplayerMessageProvider
+        from tdcdesktopapp.infrastructure.ram.multiplayer_message_provider import RamMultiplayerMessageProvider
         ConfigurationSingleton().multiplayer_message_provider_client = RamMultiplayerMessageProvider()
 
-        from tdcdesktopapp.infrastructure.authentication.ram import RamSecurityLogin
+        from tdcdesktopapp.infrastructure.ram.authentication import RamSecurityLogin
         ConfigurationSingleton().security_login = RamSecurityLogin(configuration=None)
 
     elif loader.persistence_name == "http":
-        from tdcdesktopapp.infrastructure.expense.http import HttpExpensesPersistence
+        from tdcdesktopapp.infrastructure.http.expense_persistence import HttpExpensesPersistence
         ConfigurationSingleton().expense_persistence = HttpExpensesPersistence()
 
-        from tdcdesktopapp.infrastructure.project.http import HttpProjectsPersistence
+        from tdcdesktopapp.infrastructure.http.project_persistence import HttpProjectsPersistence
         ConfigurationSingleton().project_persistence = HttpProjectsPersistence()
-        from tdcdesktopapp.infrastructure.multiplayer_message_provider.websocket import (
+        from tdcdesktopapp.infrastructure.http.websocket_multiplayer_message_provider import (
             WebSocketMultiplayerMessageProvider)
         ConfigurationSingleton().multiplayer_message_provider_client = WebSocketMultiplayerMessageProvider()
 
-        from tdcdesktopapp.infrastructure.authentication.http import HttpSecurityLogin
+        from tdcdesktopapp.infrastructure.http.authentication import HttpSecurityLogin
         ConfigurationSingleton().security_login = HttpSecurityLogin(configuration=loader.auth0_configuration)
 
 
