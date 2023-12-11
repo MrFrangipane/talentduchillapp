@@ -4,3 +4,4 @@ _documentation
 venv
 __pycache__
 dont_commit/
+*.psd

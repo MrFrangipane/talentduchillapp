@@ -6,6 +6,7 @@ def authenticate() -> bool:
     return ConfigurationSingleton().security_login.exec()
 
 
+# FIXME: this is Http specific
 def get_token() -> str:
     """Return Authorization Token."""
     return ConfigurationSingleton().security_login.token

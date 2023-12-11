@@ -6,6 +6,7 @@ from tdcdesktopapp.core.configuration.abstract_loader import AbstractConfigurati
 from tdcdesktopapp.core.configuration.singleton import ConfigurationSingleton
 
 
+# FIXME: this belongs to infrastructure
 def load_and_apply(loader: AbstractConfigurationLoader) -> None:
     """Loads configuration to `ConfigurationSingleton`"""
     loader.load()
