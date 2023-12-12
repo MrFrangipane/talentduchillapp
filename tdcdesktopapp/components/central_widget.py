@@ -24,6 +24,6 @@ class CentralWidget(QTabWidget):
         ]), "Général")
         self.addTab(self._expenses, "Expenses")
 
-        self._projects_1.reload()
-        self._projects_2.reload()
-        self._expenses.reload()
+        # self._projects_1.reload()
+        # self._projects_2.reload()
+        # self._expenses.reload()

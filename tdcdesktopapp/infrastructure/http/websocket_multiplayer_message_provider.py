@@ -7,6 +7,7 @@ from PySide6.QtWebSockets import QWebSocket
 
 from tdcdesktopapp.components.multiplayer.abstract_message_provider import AbstractMultiplayerMessageProvider
 from tdcdesktopapp.components.authentication import api as authentication_api
+from tdcdesktopapp.components import persistence
 
 
 _logger = logging.getLogger(__name__)
@@ -16,9 +17,9 @@ class _WebSocket(QObject):
     """Ensure thread safety communications with QWebSocket instance"""
     _opened = Signal()
 
-    def __init__(self, url: str, message_callback: Callable, parent=None):
+    def __init__(self, message_callback: Callable, parent=None):
         QObject.__init__(self, parent)
-        self._url = url
+        self.url = ""
         self.token = ""
         self._is_message_first = True
         self._should_reconnect = False
@@ -46,7 +47,7 @@ class _WebSocket(QObject):
 
     def _on_opened(self):
         _logger.info("Connecting...")
-        self._web_socket.open(QUrl(self._url))
+        self._web_socket.open(QUrl(self.url))
 
     def _ws_connected(self):
         _logger.info("Connected, authenticating...")
@@ -64,14 +65,12 @@ class WebSocketMultiplayerMessageProvider(AbstractMultiplayerMessageProvider):
     def __init__(self):
         AbstractMultiplayerMessageProvider.__init__(self)
         self._messages = list()
-        self._web_socket = _WebSocket(
-            url="ws://127.0.0.1:8000/multiplayer/",
-            message_callback=self._ws_message_received
-        )
+        self._web_socket = _WebSocket(message_callback=self._ws_message_received)
 
     def begin(self):
         """Creates and Opens WebSocket"""
         self._web_socket.token = authentication_api.get_token()
+        self._web_socket.url = f"ws://{persistence.get_parameter('api_host')}/multiplayer/"
         self._web_socket.open()
 
     def get_messages(self):

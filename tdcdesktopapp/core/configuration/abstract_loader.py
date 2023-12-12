@@ -7,8 +7,9 @@ class AbstractConfigurationLoader(ABC):
     `tdcdesktopapp.application.singleton.ConfigurationSingleton()`
     """
     def __init__(self):
-        self.auth0_configuration: str = ""
-        self.persistence_name: str = ""
+        self.api_host: str = ""  # used by http implementations
+        self.auth0_configuration: str = ""  # used by http implementations
+        self.persistence_name: str = ""  # defines if using http or ram implementations
         self.show_css_editor: bool = False
 
     @abstractmethod

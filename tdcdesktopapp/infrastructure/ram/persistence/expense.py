@@ -1,14 +1,16 @@
 from datetime import date
 
 from tdcdesktopapp.components.expense.model import Expense
-from tdcdesktopapp.components.expense.abstract_persistence import AbstractExpensesPersistence
+from tdcdesktopapp.components.expense.api import GetExpensesOptions, NewExpenseOptions
 from tdcdesktopapp.components.project.model import Project
+from tdcdesktopapp.core.abstract_persistence import AbstractPersistence
+from tdcdesktopapp.core.entity.base_api_options import BaseApiOptions
+from tdcdesktopapp.core.entity.base_entity import BaseEntity
 
 
-class RamExpensesPersistence(AbstractExpensesPersistence):
+class RamExpensesPersistence(AbstractPersistence):
 
     def __init__(self):
-        AbstractExpensesPersistence.__init__(self)
         self._expenses = {
             "01": Expense(id="01", project="Frais Généraux", caption="Scotch Monoprix", amount=25.1, date_=date.fromisocalendar(2024, 15, 2)),
             "02": Expense(id="02", project="Frais Généraux", caption="Liquide fumée", amount=67, date_=date.fromisocalendar(2024, 16, 2)),
@@ -23,17 +25,14 @@ class RamExpensesPersistence(AbstractExpensesPersistence):
             "11": Expense(id="11", project="Canal 211 #1", caption="Catering", amount=12, date_=date.fromisocalendar(2024, 47, 2)),
         }
 
-    def get_all(self):
+    def get(self, options: GetExpensesOptions) -> list[Expense]:
         return list(self._expenses.values())
 
-    def get_all_for_project(self, project: Project):
-        return list([expense for expense in self._expenses.values() if expense.project == project.name])
-
-    def new_for_project(self, project: Project) -> Expense:
+    def new(self, options: NewExpenseOptions) -> Expense:
         new_index = max([int(index) for index in self._expenses.keys()]) + 1
         new_expense = Expense(
             id=f"{new_index:02d}",
-            project=project.name,
+            project=options.project.name,
             caption="New Expense",
             amount=0,
             date_=date.today()
@@ -41,8 +40,8 @@ class RamExpensesPersistence(AbstractExpensesPersistence):
         self._expenses[new_expense.id] = new_expense
         return new_expense
 
-    def update(self, expense: Expense):
-        self._expenses[expense.id] = expense
+    def update(self, entity: Expense) -> None:
+        self._expenses[entity.id] = entity
 
-    def remove(self, expense: Expense):
-        self._expenses.pop(expense.id)
+    def remove(self, entity: Expense) -> None:
+        self._expenses.pop(entity.id)

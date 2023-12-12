@@ -1,6 +1,7 @@
 import json
 
 from tdcdesktopapp.components.authentication.abstract import AbstractSecurityLogin
+from tdcdesktopapp.components import persistence
 from tdcdesktopapp.infrastructure.http.authentication.auth_api import AuthAPI
 from tdcdesktopapp.infrastructure.http.authentication.auth_dialog import AuthDialog
 
@@ -8,6 +9,9 @@ from tdcdesktopapp.infrastructure.http.authentication.auth_dialog import AuthDia
 class HttpSecurityLogin(AbstractSecurityLogin):
 
     def exec(self):
+        if not persistence.is_available():
+            return False
+
         with open(self.configuration, 'r') as auth0_file:
             auth0_payload = json.load(auth0_file)
 

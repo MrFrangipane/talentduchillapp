@@ -8,4 +8,4 @@ class RamMultiplayerMessageProvider(AbstractMultiplayerMessageProvider):
         pass
 
     def get_messages(self):
-        return ConfigurationSingleton().project_persistence.get_multiplayer_messages()  # Exists because we are RAM
+        return ConfigurationSingleton().persistence_project.get_multiplayer_messages()  # Exists because we are RAM

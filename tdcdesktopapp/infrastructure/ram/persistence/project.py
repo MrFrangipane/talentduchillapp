@@ -2,14 +2,13 @@ from copy import deepcopy
 from typing import List
 
 from tdcdesktopapp.components.project.model import Project
-from tdcdesktopapp.components.project.abstract_persistence import AbstractProjectsPersistence
+from tdcdesktopapp.core.abstract_persistence import AbstractPersistence
+from tdcdesktopapp.core.entity.base_api_options import BaseApiOptions
 
 
-class RamProjectsPersistence(AbstractProjectsPersistence):
+class RamProjectsPersistence(AbstractPersistence):
 
     def __init__(self):
-        AbstractProjectsPersistence.__init__(self)
-
         self._multiplayer_messages = list()  # Specific to RAM implementation of Multiplayer Client
 
         self._projects = {
@@ -18,10 +17,10 @@ class RamProjectsPersistence(AbstractProjectsPersistence):
             "03": Project(id="03", name="Canal 211 #1")
         }
 
-    def get_all(self):
+    def get(self, options: BaseApiOptions | None = None) -> list[Project]:
         return list(self._projects.values())
 
-    def new(self) -> Project:
+    def new(self, options: BaseApiOptions | None = None) -> Project:
         new_index = max([int(index) for index in self._projects.keys()]) + 1
         new_project = Project(
             id=f"{new_index:02d}",
@@ -33,11 +32,11 @@ class RamProjectsPersistence(AbstractProjectsPersistence):
 
         return new_project
 
-    def update(self, project: Project):
-        self._projects[project.id] = project
+    def update(self, entity: Project) -> None:
+        self._projects[entity.id] = entity
 
-    def remove(self, project: Project):
-        self._projects.pop(project.id)
+    def remove(self, entity: Project) -> None:
+        self._projects.pop(entity.id)
 
     def get_multiplayer_messages(self) -> List[str]:
         """Specific to RAM implementation of Multiplayer Client"""

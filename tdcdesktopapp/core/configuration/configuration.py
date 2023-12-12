@@ -13,11 +13,14 @@ def load_and_apply(loader: AbstractConfigurationLoader) -> None:
     ConfigurationSingleton().show_css_editor = loader.show_css_editor
 
     if loader.persistence_name == "ram":
-        from tdcdesktopapp.infrastructure.ram.expense_persistence import RamExpensesPersistence
-        ConfigurationSingleton().expense_persistence = RamExpensesPersistence()
+        from tdcdesktopapp.infrastructure.ram.persistence.configuration import RamPersistenceConfiguration
+        ConfigurationSingleton().persistence_configuration = RamPersistenceConfiguration()
 
-        from tdcdesktopapp.infrastructure.ram.project_persistence import RamProjectsPersistence
-        ConfigurationSingleton().project_persistence = RamProjectsPersistence()
+        from tdcdesktopapp.infrastructure.ram.persistence.expense import RamExpensesPersistence
+        ConfigurationSingleton().persistence_expense = RamExpensesPersistence()
+
+        from tdcdesktopapp.infrastructure.ram.persistence.project import RamProjectsPersistence
+        ConfigurationSingleton().persistence_project = RamProjectsPersistence()
 
         from tdcdesktopapp.infrastructure.ram.multiplayer_message_provider import RamMultiplayerMessageProvider
         ConfigurationSingleton().multiplayer_message_provider_client = RamMultiplayerMessageProvider()
@@ -26,11 +29,16 @@ def load_and_apply(loader: AbstractConfigurationLoader) -> None:
         ConfigurationSingleton().security_login = RamSecurityLogin(configuration=None)
 
     elif loader.persistence_name == "http":
-        from tdcdesktopapp.infrastructure.http.expense_persistence import HttpExpensesPersistence
-        ConfigurationSingleton().expense_persistence = HttpExpensesPersistence()
+        from tdcdesktopapp.infrastructure.http.persistence.configuration import HttpPersistenceConfiguration
+        ConfigurationSingleton().persistence_configuration = HttpPersistenceConfiguration()
+        ConfigurationSingleton().persistence_configuration.attributes["api_host"] = loader.api_host
 
-        from tdcdesktopapp.infrastructure.http.project_persistence import HttpProjectsPersistence
-        ConfigurationSingleton().project_persistence = HttpProjectsPersistence()
+        from tdcdesktopapp.infrastructure.http.persistence.expense import HttpExpensesPersistence
+        ConfigurationSingleton().persistence_expense = HttpExpensesPersistence()
+
+        from tdcdesktopapp.infrastructure.http.persistence.project import HttpProjectsPersistence
+        ConfigurationSingleton().persistence_project = HttpProjectsPersistence()
+
         from tdcdesktopapp.infrastructure.http.websocket_multiplayer_message_provider import (
             WebSocketMultiplayerMessageProvider)
         ConfigurationSingleton().multiplayer_message_provider_client = WebSocketMultiplayerMessageProvider()

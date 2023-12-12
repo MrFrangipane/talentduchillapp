@@ -10,13 +10,13 @@ class ProjectsApi(AbstractEntityApi):
         return Project
 
     def get(self, options: None = None) -> List[Project]:
-        return ConfigurationSingleton().project_persistence.get_all()
+        return ConfigurationSingleton().persistence_project.get()
 
     def new(self, options: None = None) -> Project:
-        return ConfigurationSingleton().project_persistence.new()
+        return ConfigurationSingleton().persistence_project.new()
 
     def update(self, entity: Project) -> None:
-        return ConfigurationSingleton().project_persistence.update(entity)
+        return ConfigurationSingleton().persistence_project.update(entity)
 
     def remove(self, entity: Project) -> None:
-        return ConfigurationSingleton().project_persistence.remove(entity)
+        return ConfigurationSingleton().persistence_project.remove(entity)

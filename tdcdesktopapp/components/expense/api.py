@@ -22,16 +22,13 @@ class ExpensesApi(AbstractEntityApi):
         return Expense
 
     def get(self, options: GetExpensesOptions) -> List[Expense]:
-        if options.project is None:
-            return ConfigurationSingleton().expense_persistence.get_all()
-        else:
-            return ConfigurationSingleton().expense_persistence.get_all_for_project(options.project)
+        return ConfigurationSingleton().persistence_expense.get(options)
 
     def new(self, options: NewExpenseOptions) -> Expense:
-        return ConfigurationSingleton().expense_persistence.new_for_project(options.project)
+        return ConfigurationSingleton().persistence_expense.new(options)
 
     def update(self, entity: Expense) -> None:
-        return ConfigurationSingleton().expense_persistence.update(entity)
+        return ConfigurationSingleton().persistence_expense.update(entity)
 
     def remove(self, entity: Expense) -> None:
-        return ConfigurationSingleton().expense_persistence.remove(entity)
+        return ConfigurationSingleton().persistence_expense.remove(entity)
