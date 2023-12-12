@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMessageBox
+from pyside6helpers.message_box import information_box
 
 from tdcdesktopapp.components.authentication.abstract import AbstractSecurityLogin
 
@@ -6,10 +6,5 @@ from tdcdesktopapp.components.authentication.abstract import AbstractSecurityLog
 class RamSecurityLogin(AbstractSecurityLogin):
 
     def exec(self):
-        message = QMessageBox()
-        message.setWindowTitle("Ram Security Login")
-        message.setText("This is the Ram version of the application\nnothing is saved on quit.")
-        message.setStandardButtons(QMessageBox.StandardButton.Ok)
-        message.exec()
-
+        information_box("This is the Ram version of the application\nNothing is saved on quit.")
         return True

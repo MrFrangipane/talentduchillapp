@@ -1,6 +1,6 @@
 from PySide6.QtCore import QObject, Signal
 
-from pyside6helpers import confirmation_dialog
+from pyside6helpers.message_box import confirmation_box
 
 from tdcdesktopapp.core.entity.abstract_api import AbstractEntityApi
 from tdcdesktopapp.core.entity.base_api_options import BaseApiOptions
@@ -52,7 +52,7 @@ class EntityTable(QObject):
 
         for index in indices:
             entity = self.model.entity_from_row(index.row())
-            if confirmation_dialog(f"Are you sure you want to delete '{entity}' ?\nYOU CAN'T GO BACK"):
+            if confirmation_box(f"Are you sure you want to delete '{entity}' ?\nYOU CAN'T GO BACK"):
                 self.api.remove(entity)
 
         self.dataReloadRequested.emit()
