@@ -1,12 +1,12 @@
 from PySide6.QtWidgets import QGroupBox, QGridLayout, QPushButton, QComboBox, QWidget
-from pyside6helpers import Hourglass, combo, group
+
+from pyside6helpers import combo, group, Hourglass, icons
 from pyside6helpers.table_view import resize_columns_to_content_with_padding
 from pyside6helpers.error_reporting import error_reported
 
-
-from tdcdesktopapp.core.entity.gui import EntityTable
 from tdcdesktopapp.components.expense.api import ExpensesApi, GetExpensesOptions, NewExpenseOptions
 from tdcdesktopapp.components.project.api import ProjectsApi
+from tdcdesktopapp.core.entity.gui import EntityTable
 
 
 class ExpensesWidget(QGroupBox):
@@ -27,12 +27,16 @@ class ExpensesWidget(QGroupBox):
         self._combo_project.currentIndexChanged.connect(self.reload)
 
         self._button_add = QPushButton("Add Expense")
+        self._button_add.setIcon(icons.plus())
         self._button_add.clicked.connect(self._add_expense)
+
         self._button_remove = QPushButton("Remove Expense")
+        self._button_remove.setIcon(icons.cancel())
         self._button_remove.clicked.connect(self._entity_table.remove_entity)
 
         self._button_reload = QPushButton("Reload")
-        self._button_reload.setMinimumWidth(200)
+        self._button_reload.setIcon(icons.refresh())
+        self._button_reload.setMinimumWidth(170)
         self._button_reload.clicked.connect(self.reload)
 
         layout = QGridLayout(self)
