@@ -4,6 +4,7 @@ from typing import Callable
 
 from PySide6.QtCore import QUrl, QObject, Signal
 from PySide6.QtWebSockets import QWebSocket
+from PySide6.QtWidgets import QApplication
 
 from tdcdesktopapp.components.multiplayer.abstract_message_provider import AbstractMultiplayerMessageProvider
 from tdcdesktopapp.components.authentication import api as authentication_api
@@ -30,12 +31,13 @@ class _WebSocket(QObject):
         self._web_socket.disconnected.connect(self._ws_disconnected)
 
         self._opened.connect(self._on_opened)
+        QApplication.instance().aboutToQuit.connect(self._ws_about_to_quit)
 
     def _message_received(self, message):
         if self._is_message_first:
             self._is_message_first = False
             if message == "Authentication OK":
-
+                self._should_reconnect = True
                 _logger.info(message)
             else:
                 _logger.warning(message)
@@ -58,6 +60,9 @@ class _WebSocket(QObject):
         _logger.info("Disconnected")
         if self._should_reconnect:
             self._on_opened()
+
+    def _ws_about_to_quit(self):
+        self._should_reconnect = False
 
 
 class WebSocketMultiplayerMessageProvider(AbstractMultiplayerMessageProvider):
