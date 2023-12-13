@@ -12,7 +12,10 @@ class HttpSecurityLogin(AbstractSecurityLogin):
 
     def exec(self):
         if not persistence.is_available():
-            critical_box(f"Unable to reach {persistence.get_parameter('api_host')}.\nClosing application...")
+            critical_box([
+                f"Unable to reach {persistence.get_parameter('api_host')}.",
+                "Closing application..."
+            ])
             return False
 
         with open(self.configuration, 'r') as auth0_file:

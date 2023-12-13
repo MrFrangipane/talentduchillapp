@@ -52,7 +52,10 @@ class EntityTable(QObject):
 
         for index in indices:
             entity = self.model.entity_from_row(index.row())
-            if confirmation_box(f"Are you sure you want to delete '{entity}' ?\nYOU CAN'T GO BACK"):
+            if confirmation_box([
+                f"Are you sure you want to delete '{entity}' ?",
+                "YOU CAN'T GO BACK"
+            ]):
                 self.api.remove(entity)
 
         self.dataReloadRequested.emit()
