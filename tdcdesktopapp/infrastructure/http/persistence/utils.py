@@ -5,8 +5,8 @@ from tdc_api_client import Configuration, ApiClient
 from tdc_api_client.exceptions import ForbiddenException
 
 from tdcdesktopapp.components import persistence
-from tdcdesktopapp.components.authentication.api import get_token
 from tdcdesktopapp.core.exceptions import PersistenceException
+from tdcdesktopapp.infrastructure.http.auth0.get_token import get_token
 
 
 @contextmanager

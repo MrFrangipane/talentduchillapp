@@ -16,7 +16,7 @@ class ArgparseConfigurationLoader(AbstractConfigurationLoader):
         return ConfigurationDataclass(
             api_host=args.api_host,
             no_auth=args.no_auth,
-            auth0_configuration=args.auth0_configuration,
+            auth0_configuration_filepath=args.auth0_configuration,
             persistence_name=args.persistence,
             show_css_editor=args.show_css_editor
         )

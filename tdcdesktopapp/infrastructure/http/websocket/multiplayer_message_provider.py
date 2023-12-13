@@ -1,14 +1,14 @@
 from copy import deepcopy
 import logging
-from typing import Callable
+from typing import Any, Callable
 
 from PySide6.QtCore import QUrl, QObject, Signal
 from PySide6.QtWebSockets import QWebSocket
 from PySide6.QtWidgets import QApplication
 
-from tdcdesktopapp.components.multiplayer.abstract_message_provider import AbstractMultiplayerMessageProvider
-from tdcdesktopapp.components.authentication import api as authentication_api
 from tdcdesktopapp.components import persistence
+from tdcdesktopapp.components.multiplayer.abstract_message_provider import AbstractMultiplayerMessageProvider
+from tdcdesktopapp.infrastructure.http.websocket.validator.abstract import AbstractWebSocketValidator
 
 
 _logger = logging.getLogger(__name__)
@@ -18,12 +18,12 @@ class _WebSocket(QObject):
     """Ensure thread safety communications with QWebSocket instance"""
     _opened = Signal()
 
-    def __init__(self, message_callback: Callable, parent=None):
+    def __init__(self, message_callback: Callable, validator: AbstractWebSocketValidator, parent=None):
         QObject.__init__(self, parent)
         self.url = ""
-        self.token = ""
+        self._validator = validator
         self._is_message_first = True
-        self._should_reconnect = False
+        self._about_to_quit = False
         self._message_callback = message_callback
 
         self._web_socket = QWebSocket()
@@ -33,17 +33,6 @@ class _WebSocket(QObject):
         self._opened.connect(self._on_opened)
         QApplication.instance().aboutToQuit.connect(self._ws_about_to_quit)
 
-    def _message_received(self, message):
-        if self._is_message_first:
-            self._is_message_first = False
-            if message == "Authentication OK":
-                self._should_reconnect = True
-                _logger.info(message)
-            else:
-                _logger.warning(message)
-        else:
-            self._message_callback(message)
-
     def open(self):
         self._opened.emit()
 
@@ -52,30 +41,33 @@ class _WebSocket(QObject):
         self._web_socket.open(QUrl(self.url))
 
     def _ws_connected(self):
-        _logger.info("Connected, authenticating...")
-        self._web_socket.sendTextMessage(self.token)
-        self._web_socket.textMessageReceived.connect(self._message_received)
+        self._validator.validate(self._web_socket)
+        self._web_socket.textMessageReceived.connect(self._message_callback)
 
     def _ws_disconnected(self):
         _logger.info("Disconnected")
-        if self._should_reconnect:
+        if self._validator.is_validated and not self._about_to_quit:
             self._on_opened()
 
     def _ws_about_to_quit(self):
-        self._should_reconnect = False
+        self._about_to_quit = True
 
 
 class WebSocketMultiplayerMessageProvider(AbstractMultiplayerMessageProvider):
     """Implemenation of AbstractMultiplayerClient for WebSocket"""
-    def __init__(self):
-        AbstractMultiplayerMessageProvider.__init__(self)
+    def __init__(self, configuration: Any):
+        AbstractMultiplayerMessageProvider.__init__(self, configuration=configuration)
+        websocket_validator = self.configuration
         self._messages = list()
-        self._web_socket = _WebSocket(message_callback=self._ws_message_received)
+        self._web_socket = _WebSocket(
+            message_callback=self._ws_message_received,
+            validator=websocket_validator()
+        )
+
+        """Creates and Opens WebSocket"""
+        self._web_socket.url = f"ws://{persistence.get_parameter('api_host')}/multiplayer/"
 
     def begin(self):
-        """Creates and Opens WebSocket"""
-        self._web_socket.token = authentication_api.get_token()
-        self._web_socket.url = f"ws://{persistence.get_parameter('api_host')}/multiplayer/"
         self._web_socket.open()
 
     def get_messages(self):

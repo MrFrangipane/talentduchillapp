@@ -9,7 +9,7 @@ from tdcdesktopapp.python_extensions.singleton_metaclass import SingletonMetacla
 
 @dataclass
 class ConfigurationSingleton(metaclass=SingletonMetaclass):
-    """Singleton holding application classes and info that have been configured at startup"""
+    """Dependency injection"""
     show_css_editor: bool = None
     persistence_configuration: AbstractPersistenceConfiguration = None
     persistence_expense: AbstractPersistence = None

@@ -6,7 +6,6 @@ class AbstractSecurityLogin(ABC):
 
     def __init__(self, configuration: Any):
         self.configuration = configuration
-        self.token: str = None
 
     @abstractmethod
     def exec(self) -> bool:

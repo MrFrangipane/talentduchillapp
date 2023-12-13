@@ -39,16 +39,30 @@ def load_and_apply(loader: AbstractConfigurationLoader) -> None:
         from tdcdesktopapp.infrastructure.http.persistence.project import HttpProjectsPersistence
         ConfigurationSingleton().persistence_project = HttpProjectsPersistence()
 
-        from tdcdesktopapp.infrastructure.http.websocket_multiplayer_message_provider import (
+        from tdcdesktopapp.infrastructure.http.websocket.multiplayer_message_provider import (
             WebSocketMultiplayerMessageProvider)
-        ConfigurationSingleton().multiplayer_message_provider = WebSocketMultiplayerMessageProvider()
 
         if configuration.no_auth:
-            from tdcdesktopapp.infrastructure.authentication_no_auth import NoAuthSecurityLogin
-            ConfigurationSingleton().security_login = NoAuthSecurityLogin(configuration=None)
+            from tdcdesktopapp.infrastructure.http.no_auth import NoAuthSecurityLogin
+            from tdcdesktopapp.infrastructure.http.websocket.validator.no_auth import NoAuthWebSocketValidator
+
+            ConfigurationSingleton().multiplayer_message_provider = WebSocketMultiplayerMessageProvider(
+                configuration=NoAuthWebSocketValidator
+            )
+            ConfigurationSingleton().security_login = NoAuthSecurityLogin(
+                configuration=None
+            )
+
         else:
-            from tdcdesktopapp.infrastructure.http.authentication import HttpSecurityLogin
-            ConfigurationSingleton().security_login = HttpSecurityLogin(configuration=configuration.auth0_configuration)
+            from tdcdesktopapp.infrastructure.http.websocket.validator.auth0 import Auth0WebSocketValidator
+            from tdcdesktopapp.infrastructure.http.auth0 import HttpSecurityLogin
+
+            ConfigurationSingleton().multiplayer_message_provider = WebSocketMultiplayerMessageProvider(
+                configuration=Auth0WebSocketValidator
+            )
+            ConfigurationSingleton().security_login = HttpSecurityLogin(
+                configuration=configuration.auth0_configuration_filepath
+            )
 
 
 def show_css_editor() -> bool:

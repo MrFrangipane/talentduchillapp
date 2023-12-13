@@ -1,1 +1,0 @@
-from tdcdesktopapp.infrastructure.http.authentication.main import HttpSecurityLogin
