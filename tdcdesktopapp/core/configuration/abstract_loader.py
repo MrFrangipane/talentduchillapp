@@ -1,18 +1,13 @@
 from abc import ABC, abstractmethod
 
+from tdcdesktopapp.core.configuration.configuration_dataclass import ConfigurationDataclass
+
 
 class AbstractConfigurationLoader(ABC):
     """
-    Loads and applies values that will be used by
-    `tdcdesktopapp.application.singleton.ConfigurationSingleton()`
+    Loads configuration and returns a filled ConfigurationDataclass instance
     """
-    def __init__(self):
-        self.api_host: str = ""  # used by http implementations
-        self.auth0_configuration: str = ""  # used by http implementations
-        self.persistence_name: str = ""  # defines if using http or ram implementations
-        self.show_css_editor: bool = False
 
     @abstractmethod
-    def load(self):
-        """Must fill class members"""
+    def load(self) -> ConfigurationDataclass:
         pass
