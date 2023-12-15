@@ -39,27 +39,20 @@ def load_and_apply(loader: AbstractConfigurationLoader) -> None:
         from tdcdesktopapp.infrastructure.http.persistence.project import HttpProjectsPersistence
         ConfigurationSingleton().persistence_project = HttpProjectsPersistence()
 
-        from tdcdesktopapp.infrastructure.http.websocket.multiplayer_message_provider import (
-            WebSocketMultiplayerMessageProvider)
+        from tdcdesktopapp.infrastructure.http.multiplayer.message_provider import WebSocketMultiplayerMessageProvider
 
         if configuration.no_auth:
             from tdcdesktopapp.infrastructure.http.no_auth import NoAuthSecurityLogin
-            from tdcdesktopapp.infrastructure.http.websocket.validator.no_auth import NoAuthWebSocketValidator
 
-            ConfigurationSingleton().multiplayer_message_provider = WebSocketMultiplayerMessageProvider(
-                configuration=NoAuthWebSocketValidator
-            )
+            ConfigurationSingleton().multiplayer_message_provider = WebSocketMultiplayerMessageProvider()
             ConfigurationSingleton().security_login = NoAuthSecurityLogin(
                 configuration=None
             )
 
         else:
-            from tdcdesktopapp.infrastructure.http.websocket.validator.auth0 import Auth0WebSocketValidator
-            from tdcdesktopapp.infrastructure.http.auth0 import HttpSecurityLogin
+            from tdcdesktopapp.infrastructure.http.authentication import HttpSecurityLogin
 
-            ConfigurationSingleton().multiplayer_message_provider = WebSocketMultiplayerMessageProvider(
-                configuration=Auth0WebSocketValidator
-            )
+            ConfigurationSingleton().multiplayer_message_provider = WebSocketMultiplayerMessageProvider()
             ConfigurationSingleton().security_login = HttpSecurityLogin(
                 configuration=configuration.auth0_configuration_filepath
             )

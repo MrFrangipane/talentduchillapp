@@ -3,7 +3,7 @@ import jwt
 import requests
 
 
-class AuthAPI:
+class Auth0API:
     ALGORITHMS = ['RS256']
 
     def __init__(self, domain, client_id, audience):
@@ -50,7 +50,7 @@ class AuthAPI:
             self._validate_token(token_data['id_token'])
             self.current_user = jwt.decode(
                 token_data['id_token'],
-                algorithms=AuthAPI.ALGORITHMS,
+                algorithms=Auth0API.ALGORITHMS,
                 options={"verify_signature": False}
             )
             self.access_token = token_data['access_token']

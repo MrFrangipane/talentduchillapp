@@ -2,15 +2,15 @@ from PySide6.QtCore import QTimer
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QLabel, QDialog, QGridLayout
 
-from tdcdesktopapp.infrastructure.http.auth0.auth_api import AuthAPI
+from tdcdesktopapp.infrastructure.http.authentication.auth0_api import Auth0API
 
 
-class AuthDialog(QDialog):
+class Auth0Dialog(QDialog):
 
-    def __init__(self, auth_api: AuthAPI, parent=None):
+    def __init__(self, auth0_api: Auth0API, parent=None):
         QDialog.__init__(self, parent)
 
-        self._auth_api = auth_api
+        self._auth0_api = auth0_api
 
         self._label_code = QLabel()
         self._web_view = QWebEngineView()
@@ -38,14 +38,14 @@ class AuthDialog(QDialog):
         self._begin_authentication()
 
     def _begin_authentication(self):
-        self._auth_api.get_device_code()
-        self._label_code.setText(f"Confirmation code below must be {self._auth_api.device_code}")
-        self._web_view.load(self._auth_api.verification_uri)
-        self._polling_timer.start(self._auth_api.polling_interval * 1000)
+        self._auth0_api.get_device_code()
+        self._label_code.setText(f"Confirmation code below must be {self._auth0_api.device_code}")
+        self._web_view.load(self._auth0_api.verification_uri)
+        self._polling_timer.start(self._auth0_api.polling_interval * 1000)
 
     def _poll_for_authentication(self):
         try:
-            if self._auth_api.check_authenticated():
+            if self._auth0_api.check_authenticated():
                 self._polling_timer.stop()
                 self.accept()
 

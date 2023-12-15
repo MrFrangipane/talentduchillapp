@@ -6,9 +6,8 @@ from pyside6helpers.message_box import critical_box
 
 from tdcdesktopapp.components import persistence
 from tdcdesktopapp.components.authentication.abstract import AbstractSecurityLogin
-from tdcdesktopapp.infrastructure.http.auth0.auth_api import AuthAPI
-from tdcdesktopapp.infrastructure.http.auth0.auth_dialog import AuthDialog
-from tdcdesktopapp.infrastructure.http.websocket.validator.abstract import AbstractWebSocketValidator
+from tdcdesktopapp.infrastructure.http.authentication.auth0_api import Auth0API
+from tdcdesktopapp.infrastructure.http.authentication.auth0_dialog import Auth0Dialog
 
 
 _logger = logging.getLogger(__name__)
@@ -18,9 +17,6 @@ class HttpSecurityLogin(AbstractSecurityLogin):
 
     def __init__(self, configuration: Any):
         AbstractSecurityLogin.__init__(self, configuration)
-        self._validator: AbstractWebSocketValidator = None
-        self._waiting_for_response = False
-        self._is_authenticated = False
         self.token: str = ""
 
     def exec(self):
@@ -35,9 +31,9 @@ class HttpSecurityLogin(AbstractSecurityLogin):
         with open(auth0_config_filepath, 'r') as auth0_config_file:
             auth0_payload = json.load(auth0_config_file)
 
-        auth_api = AuthAPI(**auth0_payload)
+        auth_api = Auth0API(**auth0_payload)
 
-        dialog = AuthDialog(auth_api)
+        dialog = Auth0Dialog(auth_api)
         dialog.exec()
 
         if auth_api.current_user:

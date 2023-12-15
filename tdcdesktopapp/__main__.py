@@ -28,7 +28,6 @@ if __name__ == '__main__':
     configuration.load_and_apply(loader=ArgparseConfigurationLoader())
 
     if not authenticate():
-        _logger.warning("Login was not successful")  # FIXME: move to authentication package
         sys.exit(0)
 
     splash.close()

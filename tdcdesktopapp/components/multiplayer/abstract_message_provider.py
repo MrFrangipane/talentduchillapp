@@ -1,16 +1,12 @@
 from abc import (ABC, abstractmethod)
-from typing import Any
 
 
 class AbstractMultiplayerMessageProvider(ABC):
 
-    def __init__(self, configuration: Any):
-        self.configuration = configuration
-
     @abstractmethod
-    def begin(self):
+    def begin(self) -> None:
         pass
 
     @abstractmethod
-    def get_messages(self):
+    def get_messages(self) -> list[str]:
         pass
